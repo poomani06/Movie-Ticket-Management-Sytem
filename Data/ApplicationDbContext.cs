@@ -17,6 +17,9 @@ namespace MovieTicketBooking.Data
             public DbSet<Seat> Seats { get; set; }
         public DbSet<Show> Shows { get; set; }
         public DbSet<ShowSeat> ShowSeats { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+
+        public DbSet<BookingSeat> BookingSeats { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -54,6 +57,37 @@ namespace MovieTicketBooking.Data
             modelBuilder.Entity<Show>()
     .Property(s => s.TicketPrice)
     .HasPrecision(10, 2);
+            // Booking - Show relationship
+            modelBuilder.Entity<Booking>()
+                .HasOne<Show>()
+                .WithMany()
+                .HasForeignKey(b => b.ShowId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // BookingSeat - Booking relationship
+            modelBuilder.Entity<BookingSeat>()
+                .HasOne<Booking>()
+                .WithMany()
+                .HasForeignKey(bs => bs.BookingId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // BookingSeat - Seat relationship
+            modelBuilder.Entity<BookingSeat>()
+                .HasOne<Seat>()
+                .WithMany()
+                .HasForeignKey(bs => bs.SeatId)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Booking>()
+    .HasIndex(b => b.BookingReference)
+    .IsUnique();
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.TotalAmount)
+                .HasPrecision(10, 2);
+
+            modelBuilder.Entity<BookingSeat>()
+                .Property(bs => bs.Price)
+                .HasPrecision(10, 2);
 
         }
     }
