@@ -13,6 +13,16 @@ namespace MovieTicketBooking.Data
 
             public DbSet<Movie> Movies { get; set; }
             public DbSet<Theatre> Theatres { get; set; }
+            public DbSet<Screen> Screens { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Screen>()
+                .HasOne<Theatre>()
+                .WithMany()
+                .HasForeignKey(s => s.TheatreId);
+        }
     }
     }
 
