@@ -83,5 +83,19 @@ namespace MovieTicketBooking.Repositories
             await _context.ShowSeats.AddRangeAsync(showSeats);
             await _context.SaveChangesAsync();
         }
+        public async Task<ShowSeat?> GetShowSeatByShowAndSeatAsync(
+    int showId, int seatId)
+        {
+            return await _context.ShowSeats
+                .FirstOrDefaultAsync(s =>
+                    s.ShowId == showId && s.SeatId == seatId);
+        }
+
+        public async Task UpdateShowSeatAsync(ShowSeat showSeat)
+        {
+            _context.ShowSeats.Update(showSeat);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

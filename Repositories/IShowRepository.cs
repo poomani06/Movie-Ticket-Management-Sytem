@@ -24,5 +24,8 @@ namespace MovieTicketBooking.Repositories
         Task<List<ShowSeat>> GetBookedSeatsAsync(int showId);
 
         Task AddShowSeatsAsync(List<ShowSeat> showSeats);
+        Task<ShowSeat?> GetShowSeatByShowAndSeatAsync(int showId, int seatId);
+
+        Task UpdateShowSeatAsync(ShowSeat showSeat);
     }
 }
