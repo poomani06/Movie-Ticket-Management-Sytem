@@ -1,0 +1,13 @@
+﻿namespace MovieTicketBooking.DTOs
+{
+    public class CreateSeatDto
+    {
+        public int ScreenId { get; set; }
+
+        public string RowName { get; set; } = string.Empty;
+
+        public int SeatNumber { get; set; }
+
+        public string SeatType { get; set; } = string.Empty;
+    }
+}
