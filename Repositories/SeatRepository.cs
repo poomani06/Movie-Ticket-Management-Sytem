@@ -1,12 +1,4 @@
-﻿using MovieTicketBooking.Data;
-using MovieTicketBooking.Models;
-
-namespace MovieTicketBooking.Repositories
-{
-    public class SeatRepository
-    {
-    }
-}using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MovieTicketBooking.Data;
 using MovieTicketBooking.Models;
 
