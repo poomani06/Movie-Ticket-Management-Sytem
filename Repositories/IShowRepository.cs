@@ -17,5 +17,12 @@ namespace MovieTicketBooking.Repositories
         Task UpdateShowAsync(Show show);
 
         Task DeleteShowAsync(Show show);
+        Task<List<ShowSeat>> GetShowSeatsByShowIdAsync(int showId);
+
+        Task<List<ShowSeat>> GetAvailableSeatsAsync(int showId);
+
+        Task<List<ShowSeat>> GetBookedSeatsAsync(int showId);
+
+        Task AddShowSeatsAsync(List<ShowSeat> showSeats);
     }
 }

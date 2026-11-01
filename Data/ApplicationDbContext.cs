@@ -16,6 +16,7 @@ namespace MovieTicketBooking.Data
             public DbSet<Screen> Screens { get; set; }
             public DbSet<Seat> Seats { get; set; }
         public DbSet<Show> Shows { get; set; }
+        public DbSet<ShowSeat> ShowSeats { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -39,6 +40,21 @@ namespace MovieTicketBooking.Data
     .HasOne<Screen>()
     .WithMany()
     .HasForeignKey(s => s.ScreenId);
+            modelBuilder.Entity<ShowSeat>()
+    .HasOne<Show>()
+    .WithMany()
+    .HasForeignKey(ss => ss.ShowId)
+    .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ShowSeat>()
+                .HasOne<Seat>()
+                .WithMany()
+                .HasForeignKey(ss => ss.SeatId)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Show>()
+    .Property(s => s.TicketPrice)
+    .HasPrecision(10, 2);
+
         }
     }
     }

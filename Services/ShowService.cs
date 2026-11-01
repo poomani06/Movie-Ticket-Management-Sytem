@@ -8,15 +8,18 @@ namespace MovieTicketBooking.Services
         private readonly IShowRepository _showRepository;
         private readonly IMovieRepository _movieRepository;
         private readonly IScreenRepository _screenRepository;
+        private readonly ISeatRepository _seatRepository;
 
         public ShowService(
-            IShowRepository showRepository,
-            IMovieRepository movieRepository,
-            IScreenRepository screenRepository)
+    IShowRepository showRepository,
+    IMovieRepository movieRepository,
+    IScreenRepository screenRepository,
+    ISeatRepository seatRepository)
         {
             _showRepository = showRepository;
             _movieRepository = movieRepository;
             _screenRepository = screenRepository;
+            _seatRepository = seatRepository;
         }
 
         public async Task<Show> AddShowAsync(Show show)
@@ -36,7 +39,28 @@ namespace MovieTicketBooking.Services
                 }
             }
 
-            return await _showRepository.AddShowAsync(show);
+            // Save the Show
+            var createdShow = await _showRepository.AddShowAsync(show);
+
+            // Get all physical seats for the selected screen
+            var seats = await _seatRepository
+                .GetSeatsByScreenIdAsync(show.ScreenId);
+
+            // Create ShowSeat records with Available status
+            var showSeats = seats.Select(seat => new ShowSeat
+            {
+                ShowId = createdShow.ShowId,
+                SeatId = seat.SeatId,
+                Status = "Available"
+            }).ToList();
+
+            // Save all ShowSeats
+            if (showSeats.Any())
+            {
+                await _showRepository.AddShowSeatsAsync(showSeats);
+            }
+
+            return createdShow;
         }
 
         public async Task<List<Show>> GetAllShowsAsync()
@@ -146,6 +170,41 @@ namespace MovieTicketBooking.Services
             {
                 throw new KeyNotFoundException("Screen not found.");
             }
+        }
+        public async Task<List<ShowSeat>> GetShowSeatsByShowIdAsync(int showId)
+        {
+            var show = await _showRepository.GetShowByIdAsync(showId);
+
+            if (show == null)
+            {
+                throw new KeyNotFoundException("Show not found.");
+            }
+
+            return await _showRepository.GetShowSeatsByShowIdAsync(showId);
+        }
+
+        public async Task<List<ShowSeat>> GetAvailableSeatsAsync(int showId)
+        {
+            var show = await _showRepository.GetShowByIdAsync(showId);
+
+            if (show == null)
+            {
+                throw new KeyNotFoundException("Show not found.");
+            }
+
+            return await _showRepository.GetAvailableSeatsAsync(showId);
+        }
+
+        public async Task<List<ShowSeat>> GetBookedSeatsAsync(int showId)
+        {
+            var show = await _showRepository.GetShowByIdAsync(showId);
+
+            if (show == null)
+            {
+                throw new KeyNotFoundException("Show not found.");
+            }
+
+            return await _showRepository.GetBookedSeatsAsync(showId);
         }
     }
 }

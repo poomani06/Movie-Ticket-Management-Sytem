@@ -129,7 +129,8 @@ namespace MovieTicketBooking.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("TicketPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("ShowId");
 
@@ -138,6 +139,33 @@ namespace MovieTicketBooking.Data.Migrations
                     b.HasIndex("ScreenId");
 
                     b.ToTable("Shows");
+                });
+
+            modelBuilder.Entity("MovieTicketBooking.Models.ShowSeat", b =>
+                {
+                    b.Property<int>("ShowSeatId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShowSeatId"));
+
+                    b.Property<int>("SeatId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShowId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ShowSeatId");
+
+                    b.HasIndex("SeatId");
+
+                    b.HasIndex("ShowId");
+
+                    b.ToTable("ShowSeats");
                 });
 
             modelBuilder.Entity("MovieTicketBooking.Models.Theatre", b =>
@@ -191,6 +219,21 @@ namespace MovieTicketBooking.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ScreenId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MovieTicketBooking.Models.ShowSeat", b =>
+                {
+                    b.HasOne("MovieTicketBooking.Models.Seat", null)
+                        .WithMany()
+                        .HasForeignKey("SeatId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("MovieTicketBooking.Models.Show", null)
+                        .WithMany()
+                        .HasForeignKey("ShowId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

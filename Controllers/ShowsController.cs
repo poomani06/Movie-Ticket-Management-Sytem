@@ -197,5 +197,76 @@ namespace MovieTicketBooking.Controllers
                 return NotFound(ex.Message);
             }
         }
+        // GET: api/shows/{showId}/seats
+        [HttpGet("{showId}/seats")]
+        public async Task<IActionResult> GetShowSeats(int showId)
+        {
+            try
+            {
+                var seats = await _showService.GetShowSeatsByShowIdAsync(showId);
+
+                var response = seats.Select(seat => new ShowSeatResponseDto
+                {
+                    ShowSeatId = seat.ShowSeatId,
+                    ShowId = seat.ShowId,
+                    SeatId = seat.SeatId,
+                    Status = seat.Status
+                });
+
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        // GET: api/shows/{showId}/seats/available
+        [HttpGet("{showId}/seats/available")]
+        public async Task<IActionResult> GetAvailableSeats(int showId)
+        {
+            try
+            {
+                var seats = await _showService.GetAvailableSeatsAsync(showId);
+
+                var response = seats.Select(seat => new ShowSeatResponseDto
+                {
+                    ShowSeatId = seat.ShowSeatId,
+                    ShowId = seat.ShowId,
+                    SeatId = seat.SeatId,
+                    Status = seat.Status
+                });
+
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        // GET: api/shows/{showId}/seats/booked
+        [HttpGet("{showId}/seats/booked")]
+        public async Task<IActionResult> GetBookedSeats(int showId)
+        {
+            try
+            {
+                var seats = await _showService.GetBookedSeatsAsync(showId);
+
+                var response = seats.Select(seat => new ShowSeatResponseDto
+                {
+                    ShowSeatId = seat.ShowSeatId,
+                    ShowId = seat.ShowId,
+                    SeatId = seat.SeatId,
+                    Status = seat.Status
+                });
+
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }
