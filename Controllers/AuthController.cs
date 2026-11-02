@@ -28,7 +28,8 @@ namespace MovieTicketBooking.Controllers
                     message = "Registration successful",
                     userId = user.UserId,
                     name = user.Name,
-                    email = user.Email
+                    email = user.Email,
+                    phone = user.Phone
                 });
             }
             catch (ArgumentException ex)

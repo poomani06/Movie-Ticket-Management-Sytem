@@ -15,5 +15,8 @@ namespace MovieTicketBooking.DTOs
         [Required]
         [MinLength(8)]
         public string Password { get; set; } = string.Empty;
+        [Required]
+        [Phone]
+        public string Phone { get; set; } = string.Empty;
     }
 }

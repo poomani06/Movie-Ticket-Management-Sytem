@@ -2,11 +2,13 @@
 using MovieTicketBooking.DTOs;
 using MovieTicketBooking.Models;
 using MovieTicketBooking.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MovieTicketBooking.Controllers
 {
     [Route("api/theatres")]
     [ApiController]
+    [Authorize]
     public class TheatresController : ControllerBase
     {
         private readonly ITheatreService _theatreService;
@@ -18,6 +20,7 @@ namespace MovieTicketBooking.Controllers
 
         // POST: Add Theatre
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddTheatre(CreateTheatreDto dto)
         {
             try

@@ -17,5 +17,13 @@ namespace MovieTicketBooking.Models
 
         [Required]
         public string PasswordHash { get; set; } = string.Empty;
+        
+        [Required]
+        [StringLength(20)]
+        public string Role { get; set; } = "Customer";
+        
+        [Required]
+        [Phone]
+        public string Phone { get; set; } = string.Empty;
     }
 }

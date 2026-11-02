@@ -27,5 +27,10 @@ namespace MovieTicketBooking.Repositories
 
             return user;
         }
+        public async Task<User?> GetUserByIdAsync(int userId)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+        }
     }
 }

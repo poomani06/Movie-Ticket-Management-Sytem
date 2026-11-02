@@ -8,5 +8,6 @@ namespace MovieTicketBooking.Repositories
         Task<User?> GetUserByEmailAsync(string email);
 
         Task<User> AddUserAsync(User user);
+        Task<User?> GetUserByIdAsync(int userId);
     }
 }

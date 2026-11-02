@@ -92,6 +92,11 @@ namespace MovieTicketBooking.Data
             modelBuilder.Entity<User>()
     .HasIndex(u => u.Email)
     .IsUnique();
+            modelBuilder.Entity<Booking>()
+    .HasOne(b => b.User)
+    .WithMany()
+    .HasForeignKey(b => b.UserId)
+    .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

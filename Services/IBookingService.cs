@@ -1,14 +1,11 @@
-﻿
-using MovieTicketBooking.Models;
+﻿using MovieTicketBooking.Models;
 
 namespace MovieTicketBooking.Services
 {
     public interface IBookingService
     {
         Task<Booking> CreateBookingAsync(
-            string customerName,
-            string customerEmail,
-            string customerPhone,
+            int userId,
             int showId,
             List<int> seatIds);
 
@@ -18,6 +15,6 @@ namespace MovieTicketBooking.Services
 
         Task<Booking?> GetBookingByReferenceAsync(string reference);
 
-        Task CancelBookingAsync(int bookingId);
+        Task CancelBookingAsync(int id);
     }
 }

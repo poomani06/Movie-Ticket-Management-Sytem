@@ -8,6 +8,9 @@ namespace MovieTicketBooking.Models
         public string BookingReference { get; set; } = string.Empty;
 
         public int ShowId { get; set; }
+        public int? UserId { get; set; }
+
+        public User? User { get; set; }
 
         public string CustomerName { get; set; } = string.Empty;
 
@@ -20,5 +23,6 @@ namespace MovieTicketBooking.Models
         public decimal TotalAmount { get; set; }
 
         public string Status { get; set; } = "Confirmed";
+        
     }
 }

@@ -36,7 +36,8 @@ namespace MovieTicketBooking.Services
             {
                 Name = dto.Name,
                 Email = dto.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                 Role = "Customer"
             };
 
             return await _userRepository.AddUserAsync(user);
@@ -62,11 +63,12 @@ namespace MovieTicketBooking.Services
                 key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, user.Email)
-            };
+{
+    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+    new Claim(ClaimTypes.Name, user.Name),
+    new Claim(ClaimTypes.Email, user.Email),
+    new Claim(ClaimTypes.Role, user.Role)
+};
 
             var token = new JwtSecurityToken(
                 issuer: jwtSettings["Issuer"],

@@ -2,11 +2,13 @@
 using MovieTicketBooking.DTOs;
 using MovieTicketBooking.Models;
 using MovieTicketBooking.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MovieTicketBooking.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ScreensController : ControllerBase
     {
         private readonly IScreenService _screenService;
@@ -18,6 +20,7 @@ namespace MovieTicketBooking.Controllers
 
         // POST: api/screens
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddScreen(CreateScreenDto dto)
         {
             try
@@ -52,6 +55,7 @@ namespace MovieTicketBooking.Controllers
 
         // GET: api/screens
         [HttpGet]
+
         public async Task<IActionResult> GetAllScreens()
         {
             var screens = await _screenService.GetAllScreensAsync();
@@ -112,6 +116,7 @@ namespace MovieTicketBooking.Controllers
 
         // PUT: api/screens/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateScreen(int id, CreateScreenDto dto)
         {
             try
@@ -138,6 +143,7 @@ namespace MovieTicketBooking.Controllers
 
         // DELETE: api/screens/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteScreen(int id)
         {
             try
