@@ -36,8 +36,10 @@ namespace MovieTicketBooking.Services
             {
                 Name = dto.Name,
                 Email = dto.Email,
+                Phone = dto.Phone,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-                 Role = "Customer"
+                Role = "Customer"
+          
             };
 
             return await _userRepository.AddUserAsync(user);

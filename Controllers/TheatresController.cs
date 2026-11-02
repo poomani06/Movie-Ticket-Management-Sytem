@@ -90,6 +90,7 @@ namespace MovieTicketBooking.Controllers
 
         // PUT: Update Theatre
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateTheatre(
             int id, CreateTheatreDto dto)
         {
@@ -117,6 +118,7 @@ namespace MovieTicketBooking.Controllers
 
         // DELETE: Delete Theatre
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteTheatre(int id)
         {
             try
