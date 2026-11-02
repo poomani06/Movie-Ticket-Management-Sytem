@@ -20,6 +20,7 @@ namespace MovieTicketBooking.Data
         public DbSet<Booking> Bookings { get; set; }
 
         public DbSet<BookingSeat> BookingSeats { get; set; }
+        public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -88,6 +89,9 @@ namespace MovieTicketBooking.Data
             modelBuilder.Entity<BookingSeat>()
                 .Property(bs => bs.Price)
                 .HasPrecision(10, 2);
+            modelBuilder.Entity<User>()
+    .HasIndex(u => u.Email)
+    .IsUnique();
 
         }
     }
