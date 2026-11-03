@@ -1,49 +1,95 @@
-<h2>Register</h2>
+<div class="register-page">
 
-<form (ngSubmit)="register()">
+  <div class="register-card">
 
-  <div>
-    <label>Name</label>
-    <input
-      type="text"
-      name="name"
-      [(ngModel)]="name"
-      required
-      maxlength="100"
-    >
+    <div class="logo">
+      <span>🎬</span>
+      <h1>MovieTicket</h1>
+    </div>
+
+    <h2>Create Account</h2>
+    <p class="subtitle">Join us and book your favourite movies.</p>
+
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="name"
+          placeholder="Enter your full name"
+          required
+          maxlength="100"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="Enter your email"
+          required
+          email
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          [(ngModel)]="phone"
+          placeholder="Enter your phone number"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Create a password"
+          required
+          minlength="8"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          [(ngModel)]="confirmPassword"
+          placeholder="Confirm your password"
+          required
+        >
+
+        <small [hidden]="password === confirmPassword || !confirmPassword">
+          Passwords do not match.
+        </small>
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid">
+        Create Account
+      </button>
+
+    </form>
+
+    <p class="login-link">
+      Already have an account?
+      <a routerLink="/login">Login here</a>
+    </p>
+
   </div>
 
-  <div>
-    <label>Email</label>
-    <input
-      type="email"
-      name="email"
-      [(ngModel)]="email"
-      required
-    >
-  </div>
-
-  <div>
-    <label>Password</label>
-    <input
-      type="password"
-      name="password"
-      [(ngModel)]="password"
-      required
-      minlength="8"
-    >
-  </div>
-
-  <div>
-    <label>Phone</label>
-    <input
-      type="tel"
-      name="phone"
-      [(ngModel)]="phone"
-      required
-    >
-  </div>
-
-  <button type="submit">Register</button>
-
-</form>
+</div>

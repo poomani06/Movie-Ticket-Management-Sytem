@@ -1,27 +1,82 @@
-<h2>Available Movies</h2>
+<div class="movies-page">
 
-<div *ngIf="movies.length > 0; else noMovies">
+  <header class="movies-header">
+    <div>
+      <h1>MovieTicket</h1>
+      <p>Your next movie experience starts here.</p>
+    </div>
 
-  <div *ngFor="let movie of movies">
+    <span class="header-label">MOVIE COLLECTION</span>
+  </header>
 
-    <h3>{{ movie.title }}</h3>
+  <section class="movies-content">
 
-    <p>{{ movie.description }}</p>
+    <div class="section-heading">
+      <div>
+        <h2>Explore Movies</h2>
+        <p>Discover movies available for booking.</p>
+      </div>
 
-    <p>Duration: {{ movie.durationMinutes }} minutes</p>
+      <span class="movie-count">
+        {{ movies.length }} Movies
+      </span>
+    </div>
 
-    <p>Language: {{ movie.language }}</p>
+    <!-- Loading -->
+    <div class="message" *ngIf="isLoading">
+      Loading movies...
+    </div>
 
-    <p>Genre: {{ movie.genre }}</p>
+    <!-- Error -->
+    <div class="message error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
 
-    <p>Release Date: {{ movie.releaseDate }}</p>
+    <!-- Movie Cards -->
+    <div class="movie-grid"
+         *ngIf="!isLoading && !errorMessage && movies.length > 0">
 
-    <hr>
+      <div class="movie-card" *ngFor="let movie of movies">
 
-  </div>
+        <div class="movie-poster">
+          <span class="poster-icon">🎬</span>
+          <span class="poster-text">NOW SHOWING</span>
+        </div>
+
+        <div class="movie-details">
+
+          <h3>{{ movie.title }}</h3>
+
+          <p class="description">
+            {{ movie.description || 'No description available.' }}
+          </p>
+
+          <div class="movie-info">
+            <span>{{ movie.genre }}</span>
+            <span>{{ movie.language }}</span>
+          </div>
+
+          <div class="movie-footer">
+            <span>{{ movie.durationMinutes }} min</span>
+
+            <span>{{ movie.releaseDate | date:'dd MMM yyyy' }}</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- No Movies -->
+    <div class="message" 
+         *ngIf="!isLoading && !errorMessage && movies.length === 0">
+
+      <h3>No Movies Available</h3>
+      <p>There are currently no movies to display.</p>
+
+    </div>
+
+  </section>
 
 </div>
-
-<ng-template #noMovies>
-  <p>No movies available.</p>
-</ng-template>

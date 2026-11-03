@@ -13,6 +13,8 @@ import { Movie } from '../../models/movie.model';
 export class Movies implements OnInit {
 
   movies: Movie[] = [];
+  isLoading = true;
+  errorMessage = '';
 
   constructor(private movieService: MovieService) {}
 
@@ -21,13 +23,23 @@ export class Movies implements OnInit {
   }
 
   loadMovies(): void {
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
     this.movieService.getMovies().subscribe({
+
       next: (data) => {
         this.movies = data;
+        this.isLoading = false;
       },
+
       error: (error) => {
         console.error('Error loading movies:', error);
+        this.errorMessage = 'Unable to load movies. Please try again.';
+        this.isLoading = false;
       }
+
     });
   }
 }

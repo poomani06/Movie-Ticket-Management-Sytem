@@ -1,1 +1,63 @@
-<p>login works!</p>
+<div class="login-page">
+
+  <div class="login-card">
+
+    <div class="logo">
+      <span>🎬</span>
+      <h1>MovieTicket</h1>
+    </div>
+
+    <h2>Welcome Back!</h2>
+    <p class="subtitle">Login to book your favourite movies.</p>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="Enter your email"
+          required
+          email
+          #emailInput="ngModel"
+        >
+
+        <small *ngIf="emailInput.invalid && emailInput.touched">
+          Please enter a valid email address.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Enter your password"
+          required
+          #passwordInput="ngModel"
+        >
+
+        <small *ngIf="passwordInput.invalid && passwordInput.touched">
+          Password is required.
+        </small>
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid">
+        Login
+      </button>
+
+    </form>
+
+    <p class="register-link">
+      Don't have an account?
+      <a routerLink="/register">Create Account</a>
+    </p>
+
+  </div>
+
+</div>
