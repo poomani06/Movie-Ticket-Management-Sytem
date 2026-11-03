@@ -1,0 +1,27 @@
+<h2>Available Movies</h2>
+
+<div *ngIf="movies.length > 0; else noMovies">
+
+  <div *ngFor="let movie of movies">
+
+    <h3>{{ movie.title }}</h3>
+
+    <p>{{ movie.description }}</p>
+
+    <p>Duration: {{ movie.durationMinutes }} minutes</p>
+
+    <p>Language: {{ movie.language }}</p>
+
+    <p>Genre: {{ movie.genre }}</p>
+
+    <p>Release Date: {{ movie.releaseDate }}</p>
+
+    <hr>
+
+  </div>
+
+</div>
+
+<ng-template #noMovies>
+  <p>No movies available.</p>
+</ng-template>
