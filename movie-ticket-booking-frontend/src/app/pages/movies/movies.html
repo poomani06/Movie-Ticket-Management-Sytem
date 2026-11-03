@@ -57,10 +57,15 @@
           </div>
 
           <div class="movie-footer">
-            <span>{{ movie.durationMinutes }} min</span>
+  <span>{{ movie.durationMinutes }} min</span>
+  <span>{{ movie.releaseDate | date:'dd MMM yyyy' }}</span>
+</div>
 
-            <span>{{ movie.releaseDate | date:'dd MMM yyyy' }}</span>
-          </div>
+<button
+  class="view-shows-btn"
+  (click)="viewShows(movie.movieId)">
+  View Shows
+</button>
 
         </div>
 

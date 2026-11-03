@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { MovieService } from '../../core/services/movie';
 import { Movie } from '../../models/movie.model';
@@ -16,14 +17,16 @@ export class Movies implements OnInit {
   isLoading = true;
   errorMessage = '';
 
-  constructor(private movieService: MovieService) {}
+  constructor(
+    private movieService: MovieService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadMovies();
   }
 
   loadMovies(): void {
-
     this.isLoading = true;
     this.errorMessage = '';
 
@@ -42,4 +45,10 @@ export class Movies implements OnInit {
 
     });
   }
+
+  // Navigate to the selected movie's shows
+  viewShows(movieId: number): void {
+    this.router.navigate(['/shows', movieId]);
+  }
+
 }

@@ -185,5 +185,21 @@
   .movie-grid {
     grid-template-columns: 1fr;
   }
+  .view-shows-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 18px;
+  background: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.view-shows-btn:hover {
+  background: #e63946;
+}
 
 }
