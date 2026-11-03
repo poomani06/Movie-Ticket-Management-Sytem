@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -18,10 +18,10 @@ export class Movies implements OnInit {
   errorMessage = '';
 
   constructor(
-    private movieService: MovieService,
-    private router: Router
-  ) {}
-
+  private movieService: MovieService,
+  private router: Router,
+  private cdr: ChangeDetectorRef
+) {}
   ngOnInit(): void {
     this.loadMovies();
   }
@@ -33,9 +33,15 @@ export class Movies implements OnInit {
     this.movieService.getMovies().subscribe({
 
       next: (data) => {
-        this.movies = data;
-        this.isLoading = false;
-      },
+  console.log('Movies API Response:', data);
+
+  this.movies = data;
+  this.isLoading = false;
+
+  this.cdr.detectChanges();
+
+  console.log('Movies loaded:', this.movies.length);
+},
 
       error: (error) => {
         console.error('Error loading movies:', error);

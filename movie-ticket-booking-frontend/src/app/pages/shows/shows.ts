@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
@@ -19,9 +19,10 @@ export class Shows implements OnInit {
   errorMessage = '';
 
   constructor(
-    private route: ActivatedRoute,
-    private showService: ShowService
-  ) {}
+  private route: ActivatedRoute,
+  private showService: ShowService,
+  private cdr: ChangeDetectorRef
+) {}
 
   ngOnInit(): void {
     this.movieId = Number(this.route.snapshot.paramMap.get('movieId'));
@@ -37,15 +38,24 @@ export class Shows implements OnInit {
     this.showService.getShowsByMovieId(this.movieId).subscribe({
 
       next: (data) => {
-        this.shows = data;
-        this.isLoading = false;
-      },
+  console.log('Shows API Response:', data);
 
-      error: (error) => {
-        console.error('Error loading shows:', error);
-        this.errorMessage = 'Unable to load shows. Please try again.';
-        this.isLoading = false;
-      }
+  this.shows = data;
+  this.isLoading = false;
+
+  console.log('Loading status:', this.isLoading);
+
+  this.cdr.detectChanges();
+},
+
+error: (error) => {
+  console.error('Error loading shows:', error);
+
+  this.errorMessage = 'Unable to load shows. Please try again.';
+  this.isLoading = false;
+
+  this.cdr.detectChanges();
+}
 
     });
   }

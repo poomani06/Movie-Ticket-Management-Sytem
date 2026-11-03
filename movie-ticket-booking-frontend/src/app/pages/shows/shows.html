@@ -1,1 +1,87 @@
 <p>shows works!</p>
+<div class="shows-page">
+
+  <header class="shows-header">
+    <div>
+      <h1>MovieTicket</h1>
+      <p>Select your preferred show.</p>
+    </div>
+
+    <span class="header-label">AVAILABLE SHOWS</span>
+  </header>
+
+  <section class="shows-content">
+
+    <div class="section-heading">
+      <div>
+        <h2>Show Timings</h2>
+        <p>Choose a show to continue booking.</p>
+      </div>
+
+      <span class="show-count">
+        {{ shows.length }} Shows
+      </span>
+    </div>
+
+    <!-- Loading -->
+    <div class="message" *ngIf="isLoading">
+      Loading shows...
+    </div>
+
+    <!-- Error -->
+    <div class="message error" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Show Cards -->
+    <div
+      class="show-grid"
+      *ngIf="!isLoading && !errorMessage && shows.length > 0">
+
+      <div class="show-card" *ngFor="let show of shows">
+
+        <div class="show-card-header">
+          <span class="show-icon">🎬</span>
+          <span class="show-label">AVAILABLE</span>
+        </div>
+
+        <div class="show-details">
+
+          <h3>Screen {{ show.screenId }}</h3>
+
+          <div class="time-info">
+            <div>
+              <span>Start Time</span>
+              <strong>{{ show.startTime | date:'hh:mm a' }}</strong>
+            </div>
+
+            <div>
+              <span>End Time</span>
+              <strong>{{ show.endTime | date:'hh:mm a' }}</strong>
+            </div>
+          </div>
+
+          <div class="show-footer">
+            <span>Ticket Price</span>
+            <strong>₹{{ show.ticketPrice }}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- No Shows -->
+    <div
+      class="message"
+      *ngIf="!isLoading && !errorMessage && shows.length === 0">
+
+      <h3>No Shows Available</h3>
+      <p>There are currently no shows available for this movie.</p>
+
+    </div>
+
+  </section>
+
+</div>
