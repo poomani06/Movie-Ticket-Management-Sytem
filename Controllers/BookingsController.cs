@@ -14,16 +14,19 @@ namespace MovieTicketBooking.Controllers
     public class BookingsController : ControllerBase
     {
         private readonly IBookingService _bookingService;
+        private readonly IAuthorizationService _authorizationService;
         private int GetLoggedInUserId()
         {
             return int.Parse(
                 User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         }
-        public BookingsController(IBookingService bookingService)
+        public BookingsController(
+    IBookingService bookingService,
+    IAuthorizationService authorizationService)
         {
             _bookingService = bookingService;
+            _authorizationService = authorizationService;
         }
-        
         // POST: api/bookings
         [HttpPost]
         [Authorize(Roles = "Customer")]
@@ -122,8 +125,12 @@ namespace MovieTicketBooking.Controllers
 
             if (booking == null)
                 return NotFound("Booking not found.");
-            if (!User.IsInRole("Admin") &&
-    booking.UserId != GetLoggedInUserId())
+            var result = await _authorizationService.AuthorizeAsync(
+    User,
+    booking,
+    "BookingOwner");
+
+            if (!result.Succeeded)
             {
                 return Forbid();
             }
@@ -154,7 +161,15 @@ namespace MovieTicketBooking.Controllers
 
             if (booking == null)
                 return NotFound("Booking not found.");
+            var result = await _authorizationService.AuthorizeAsync(
+    User,
+    booking,
+    "BookingOwner");
 
+            if (!result.Succeeded)
+            {
+                return Forbid();
+            }
             var response = new BookingResponseDto
             {
                 BookingId = booking.BookingId,
@@ -189,8 +204,13 @@ namespace MovieTicketBooking.Controllers
                 }
 
                 // Step 3: Check booking ownership
-                if (!User.IsInRole("Admin") &&
-                    booking.UserId != GetLoggedInUserId())
+                // Step 3: Check booking ownership using custom authorization
+                var result = await _authorizationService.AuthorizeAsync(
+                    User,
+                    booking,
+                    "BookingOwner");
+
+                if (!result.Succeeded)
                 {
                     return Forbid();
                 }

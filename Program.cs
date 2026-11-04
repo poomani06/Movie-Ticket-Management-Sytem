@@ -1,12 +1,15 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using MovieTicketBooking.Authorization.Handlers;
+using MovieTicketBooking.Authorization.Requirements;
+using MovieTicketBooking.Data;
 using MovieTicketBooking.Repositories;
 using MovieTicketBooking.Services;
-using Microsoft.EntityFrameworkCore;
-using MovieTicketBooking.Data;
 using Scalar.AspNetCore;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -60,8 +63,17 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero
     };
 });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("BookingOwner", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.AddRequirements(new BookingOwnerRequirement());
+    });
+});
 
-builder.Services.AddAuthorization();
+builder.Services.AddSingleton<IAuthorizationHandler, BookingOwnerHandler>();
+
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
